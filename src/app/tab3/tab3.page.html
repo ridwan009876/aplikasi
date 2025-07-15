@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Absensi Manual</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- 🔸 Form Tambah Absensi -->
+  <ion-card *ngIf="!isEditing">
+    <ion-card-header>
+      <ion-card-title>Form Absensi</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Nama</ion-label>
+        <ion-input [(ngModel)]="formAbsensi.nama"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">NISN</ion-label>
+        <ion-input [(ngModel)]="formAbsensi.nisn"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Kelas</ion-label>
+        <ion-input [(ngModel)]="formAbsensi.kelas"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Jenis Kelamin</ion-label>
+        <ion-select [(ngModel)]="formAbsensi.jk">
+          <ion-select-option value="L">Laki-laki</ion-select-option>
+          <ion-select-option value="P">Perempuan</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Status</ion-label>
+        <ion-select [(ngModel)]="formAbsensi.status">
+          <ion-select-option value="Hadir">Hadir</ion-select-option>
+          <ion-select-option value="Izin">Izin</ion-select-option>
+          <ion-select-option value="Sakit">Sakit</ion-select-option>
+          <ion-select-option value="Alpha">Alpha</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tanggal</ion-label>
+        <ion-input type="date" [(ngModel)]="formAbsensi.tanggal"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" (click)="simpanAbsensiManual()">Simpan</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 🔸 Form Edit Absensi -->
+  <ion-card *ngIf="isEditing">
+    <ion-card-header>
+      <ion-card-title>Edit Absensi</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">Nama</ion-label>
+        <ion-input [(ngModel)]="editAbsensi.nama"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">NISN</ion-label>
+        <ion-input [(ngModel)]="editAbsensi.nisn"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Kelas</ion-label>
+        <ion-input [(ngModel)]="editAbsensi.kelas"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Jenis Kelamin</ion-label>
+        <ion-select [(ngModel)]="editAbsensi.jk">
+          <ion-select-option value="L">Laki-laki</ion-select-option>
+          <ion-select-option value="P">Perempuan</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Status</ion-label>
+        <ion-select [(ngModel)]="editAbsensi.status">
+          <ion-select-option value="Hadir">Hadir</ion-select-option>
+          <ion-select-option value="Izin">Izin</ion-select-option>
+          <ion-select-option value="Sakit">Sakit</ion-select-option>
+          <ion-select-option value="Alpha">Alpha</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tanggal</ion-label>
+        <ion-input type="date" [(ngModel)]="editAbsensi.tanggal"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" color="success" (click)="simpanEditAbsensi()">Simpan Perubahan</ion-button>
+      <ion-button expand="block" color="medium" (click)="batalEdit()">Batal</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- 🔸 Daftar Riwayat Absensi (Tanpa Hapus) -->
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Riwayat Absensi</ion-label>
+    </ion-list-header>
+
+    <ion-item *ngFor="let data of riwayatAbsensi">
+      <ion-label>
+        <h2>{{ data.nama }} ({{ data.kelas }})</h2>
+        <p>Status: {{ data.status }} | Tanggal: {{ data.tanggal }}</p>
+      </ion-label>
+      <ion-button slot="end" size="small" (click)="editData(data)">Edit</ion-button>
+      <!-- Tombol hapus dihilangkan -->
+    </ion-item>
+  </ion-list>
+</ion-content>
