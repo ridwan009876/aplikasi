@@ -1,0 +1,7 @@
+{
+  "name": "Pembelajaran",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
