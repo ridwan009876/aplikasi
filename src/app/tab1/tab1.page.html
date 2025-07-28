@@ -1,17 +1,86 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+<ion-header translucent>
+  <ion-toolbar color="primary">
+    <ion-title>Input Kelas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form #kelasForm="ngForm" (ngSubmit)="simpanKelas()" novalidate>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Form Kelas Pembelajaran</ion-card-title>
+        <ion-card-subtitle>Isi data kelas dengan lengkap</ion-card-subtitle>
+      </ion-card-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
-</ion-content>
+      <ion-card-content>
+        <ion-list lines="inset">
+
+          <!-- Nama Kelas -->
+          <ion-item>
+            <ion-label position="floating">Nama Kelas</ion-label>
+            <ion-input [(ngModel)]="namaKelas" name="namaKelas" type="text" clearInput required></ion-input>
+          </ion-item>
+
+          <!-- Jadwal Masuk -->
+          <ion-item>
+            <ion-label position="floating">Jadwal Masuk</ion-label>
+            <ion-datetime [(ngModel)]="jadwalMasuk" name="jadwalMasuk" presentation="date-time" required></ion-datetime>
+          </ion-item>
+
+          <!-- Mata Pelajaran -->
+          <ion-item>
+            <ion-label position="floating">Mata Pelajaran</ion-label>
+            <ion-input [(ngModel)]="mataPelajaran" name="mataPelajaran" type="text" clearInput required></ion-input>
+          </ion-item>
+
+          <!-- Jumlah Siswa -->
+          <ion-item>
+            <ion-label position="floating">Jumlah Siswa</ion-label>
+            <ion-input [(ngModel)]="jumlahSiswa" name="jumlahSiswa" type="number" required></ion-input>
+          </ion-item>
+
+          <!-- Guru Pengampu -->
+          <ion-item>
+            <ion-label position="floating">Guru Pengampu</ion-label>
+            <ion-input [(ngModel)]="guruPengampu" name="guruPengampu" type="text" clearInput required></ion-input>
+          </ion-item>
+
+          <!-- Kode Kelas -->
+          <ion-item>
+            <ion-label position="floating">Kode Kelas</ion-label>
+            <ion-input [(ngModel)]="kodeKelas" name="kodeKelas" type="text" clearInput></ion-input>
+          </ion-item>
+
+          <!-- Tahun Ajaran -->
+          <ion-item>
+            <ion-label position="floating">Tahun Ajaran</ion-label>
+            <ion-input [(ngModel)]="tahunAjaran" name="tahunAjaran" type="text" placeholder="2024/2025" required></ion-input>
+          </ion-item>
+
+        </ion-list>
+
+        <ion-button
+          expand="block"
+          type="submit"
+          color="success"
+          size="large"
+          shape="round"
+          class="ion-margin-top"
+          [disabled]="!kelasForm.form.valid">
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          Simpan Kelas
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </form>
+
+  <<ion-button
+  expand="block"
+  type="submit"
+  color="success"
+  size="large"
+  shape="round"
+  class="ion-margin-top">
+  <ion-icon name="save-outline" slot="start"></ion-icon>
+  Simpan Kelas
+</ion-button>

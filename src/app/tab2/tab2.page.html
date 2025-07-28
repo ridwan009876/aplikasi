@@ -1,17 +1,103 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+<ion-header translucent>
+  <ion-toolbar color="secondary">
+    <ion-title>Daftar Kelas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <!-- Refresher Pull to Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-down"
+      refreshingSpinner="bubbles"
+      pullingText="Tarik untuk menyegarkan"
+      refreshingText="Menyegarkan...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Daftar Kelas -->
+  <ng-container *ngIf="kelasList.length > 0; else noData">
+    <ion-card *ngFor="let kelas of kelasList">
+      <ion-card-header>
+        <ion-card-title>
+          {{ isEditing && editData.id === kelas.id ? '✏️ Edit Kelas' : kelas.namaKelas }}
+        </ion-card-title>
+        <ion-card-subtitle *ngIf="!(isEditing && editData.id === kelas.id)">
+          📌 Kode: {{ kelas.kodeKelas }} | 📅 Tahun Ajaran: {{ kelas.tahunAjaran }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <!-- FORM EDIT -->
+        <div *ngIf="isEditing && editData.id === kelas.id; else viewMode">
+          <ion-input label="Nama Kelas" fill="outline" [(ngModel)]="editData.namaKelas"></ion-input>
+          <ion-input label="Kode Kelas" fill="outline" [(ngModel)]="editData.kodeKelas"></ion-input>
+          <ion-input label="Tahun Ajaran" fill="outline" [(ngModel)]="editData.tahunAjaran"></ion-input>
+          <ion-input label="Mata Pelajaran" fill="outline" [(ngModel)]="editData.mataPelajaran"></ion-input>
+          <ion-input label="Jumlah Siswa" fill="outline" type="number" [(ngModel)]="editData.jumlahSiswa"></ion-input>
+          <ion-input label="Guru Pengampu" fill="outline" [(ngModel)]="editData.guruPengampu"></ion-input>
+          <ion-datetime-button datetime="editDatetime"></ion-datetime-button>
+          <ion-modal trigger="editDatetime">
+            <ion-datetime presentation="date" [(ngModel)]="editData.jadwalMasuk" id="editDatetime"></ion-datetime>
+          </ion-modal>
+
+          <ion-grid class="ion-margin-top">
+            <ion-row>
+              <ion-col size="6">
+                <ion-button expand="block" color="success" (click)="submitEdit()">Simpan</ion-button>
+              </ion-col>
+              <ion-col size="6">
+                <ion-button expand="block" color="medium" (click)="batalEdit()">Batal</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+
+        <!-- VIEW MODE -->
+        <ng-template #viewMode>
+          <p><strong>🗓️ Jadwal:</strong> {{ kelas.jadwalMasuk | date: 'fullDate' }}</p>
+          <p><strong>📘 Mata Pelajaran:</strong> {{ kelas.mataPelajaran }}</p>
+          <p><strong>👥 Jumlah Siswa:</strong> {{ kelas.jumlahSiswa }}</p>
+          <p><strong>👨‍🏫 Guru Pengampu:</strong> {{ kelas.guruPengampu }}</p>
+
+          <!-- Tombol Aksi -->
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6">
+                <ion-button color="primary" expand="block" fill="solid" (click)="editKelas(kelas)">
+                  <ion-icon name="create-outline" slot="start"></ion-icon>
+                  Edit
+                </ion-button>
+              </ion-col>
+              <ion-col size="6">
+                <ion-button color="danger" expand="block" fill="outline" (click)="hapusKelas(kelas.id)">
+                  <ion-icon name="trash-outline" slot="start"></ion-icon>
+                  Hapus
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ng-template>
+
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <!-- Jika tidak ada data -->
+  <ng-template #noData>
+    <ion-text color="medium" class="ion-text-center" style="display: block; margin-top: 2rem;">
+      Belum ada data kelas yang tersedia.
+    </ion-text>
+  </ng-template>
+
+  <!-- Infinite Scroll -->
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Memuat lebih banyak kelas...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
