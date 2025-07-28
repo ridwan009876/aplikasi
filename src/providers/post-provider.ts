@@ -6,7 +6,11 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class PostProvider {
     //server: string = 'https://tis1.itbi.ac.id/api/'; 
+<<<<<<< HEAD
     server: string = 'https://smk.aplikasi.blog/';
+=======
+    server: string = 'http://smk.aplikasi.blog/';
+>>>>>>> e9ece910c7c1d0cd06be99300c8cd2486f9604b2
 
     constructor(public http: HttpClient) { }
 
